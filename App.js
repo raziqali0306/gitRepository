@@ -1,28 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard,
+  ScrollView,
 } from 'react-native';
+import Repo from './components/Repo';
 
 const App = () => {
   const [query, setQuery] = useState('');
   const [repo, setRepo] = useState([]);
 
-  useEffect(() => {
-    console.log(repo);
-  }, [repo]);
-
   const getReps = async () => {
-    try {
-      const api = 'https://api.github.com/search/repositories?q={';
-      let response = await fetch(api + query + '}');
-      let resp = await response.json();
-      setRepo(resp.items);
-    } catch (error) {
-      console.error(error);
+    if (query != '') {
+      alert('Click on Name to open Repository in browser.!');
+      Keyboard.dismiss();
+      try {
+        const api = 'https://api.github.com/search/repositories?q={';
+        let response = await fetch(api + query + '}');
+        let resp = await response.json();
+        setRepo(resp.items);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -42,6 +46,23 @@ const App = () => {
             <Text style={styles.text}>Search</Text>
           </TouchableOpacity>
         </View>
+        <KeyboardAvoidingView>
+          <ScrollView>
+            {repo.map((item, index) => {
+              return (
+                <View key={index}>
+                  <Repo
+                    title={item.name}
+                    on={item.owner.login}
+                    lang={item.language}
+                    description={item.description}
+                    URL={item.html_url}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     </View>
   );
@@ -54,18 +75,21 @@ const styles = StyleSheet.create({
   },
   header: {
     color: '#fff',
-    fontWeight: '400',
+    fontWeight: '800',
     paddingLeft: 18,
-    marginTop: 94,
-    fontSize: 24,
+    marginTop: 72,
+    fontSize: 26,
   },
   body: {
+    flex: 1,
     marginTop: 22,
+    marginBottom: 50,
   },
   searchBar: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    marginBottom: 18,
   },
   input: {
     width: '70%',
