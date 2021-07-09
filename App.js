@@ -17,15 +17,17 @@ const App = () => {
 
   const getReps = async () => {
     if (query != '') {
-      alert('Click on Name to open Repository in browser.!');
       Keyboard.dismiss();
       try {
         const api = 'https://api.github.com/search/repositories?q={';
         let response = await fetch(api + query + '}');
         let resp = await response.json();
-        setRepo(resp.items);
+        if (resp && resp.items) {
+          alert('Click on Name to open Repository in browser.!');
+          setRepo(resp.items);
+        }
       } catch (error) {
-        console.error(error);
+        alert('Make sure you have internet connection connected.');
       }
     }
   };
