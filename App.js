@@ -25,7 +25,6 @@ const App = () => {
         let response = await fetch(api + query + '}');
         let resp = await response.json();
         if (resp && resp.items) {
-          alert('Click on Name to open Repository in browser.!');
           setRepo(resp.items);
         }
       } catch (error) {
