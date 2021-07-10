@@ -17,21 +17,23 @@ const App = () => {
   const [repo, setRepo] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const getReps = async () => {
-    if (query != '') {
+  const getReps = () => {
+    const api = 'https://api.github.com/search/repositories?q={';
+    if (query != null) {
       Keyboard.dismiss();
-      try {
-        const api = 'https://api.github.com/search/repositories?q={';
-        let response = await fetch(api + query + '}');
-        let resp = await response.json();
-        if (resp && resp.items) {
-          setRepo(resp.items);
-        }
-      } catch (error) {
-        alert('Make sure you have internet connection connected.');
-      }
+      fetch(api + query + '}')
+        .then(response => response.json())
+        .then(json => {
+          if (json && json.items) {
+            setLoading(false);
+            setRepo(json.items);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
-    setLoading(false);
+    setQuery(null);
   };
 
   return (
