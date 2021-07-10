@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Home from '../Screens/HomeScreen';
@@ -12,9 +11,10 @@ const TopTabNavigator = () => {
       <Tab.Navigator
         initialRouteName="Home"
         tabBarOptions={{
-          activeTintColor: '#e91e63',
+          activeTintColor: '#FFF',
+          inactiveTintColor: '#FFFFFFAA',
           labelStyle: {fontSize: 14},
-          style: {backgroundColor: '#505050'},
+          style: {backgroundColor: '#181818'},
         }}>
         <Tab.Screen
           name="Home"
@@ -30,9 +30,5 @@ const TopTabNavigator = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  tab: {},
-});
 
 export default TopTabNavigator;

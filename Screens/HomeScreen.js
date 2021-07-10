@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '800',
     paddingLeft: 18,
-    marginTop: 72,
+    marginTop: 62,
     fontSize: 26,
   },
   body: {
