@@ -30,6 +30,7 @@ const App = () => {
           }
         })
         .catch(error => {
+          setLoading(false);
           console.error(error);
         });
     }
