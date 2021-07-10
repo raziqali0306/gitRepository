@@ -8,12 +8,14 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Repo from './components/Repo';
 
 const App = () => {
   const [query, setQuery] = useState('');
   const [repo, setRepo] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const getReps = async () => {
     if (query != '') {
@@ -23,13 +25,13 @@ const App = () => {
         let response = await fetch(api + query + '}');
         let resp = await response.json();
         if (resp && resp.items) {
-          alert('Click on Name to open Repository in browser.!');
           setRepo(resp.items);
         }
       } catch (error) {
         alert('Make sure you have internet connection connected.');
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -43,26 +45,35 @@ const App = () => {
             onChangeText={text => setQuery(text)}
           />
           <TouchableOpacity
-            onPress={() => getReps()}
+            onPress={() => {
+              setLoading(true);
+              getReps();
+            }}
             style={styles.searchButton}>
             <Text style={styles.text}>Search</Text>
           </TouchableOpacity>
         </View>
         <KeyboardAvoidingView>
           <ScrollView>
-            {repo.map((item, index) => {
-              return (
-                <View key={index}>
-                  <Repo
-                    title={item.name}
-                    on={item.owner.login}
-                    lang={item.language}
-                    description={item.description}
-                    URL={item.html_url}
-                  />
-                </View>
-              );
-            })}
+            {!isLoading ? (
+              repo.map((item, index) => {
+                return (
+                  <View key={index}>
+                    <Repo
+                      title={item.name}
+                      on={item.owner.login}
+                      lang={item.language}
+                      description={item.description}
+                      URL={item.html_url}
+                    />
+                  </View>
+                );
+              })
+            ) : (
+              <View style={styles.activityIndicator}>
+                <ActivityIndicator size="large" color="#fff" />
+              </View>
+            )}
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
@@ -111,6 +122,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 2,
     borderColor: '#505050',
+  },
+  activityIndicator: {
+    marginTop: 220,
   },
 });
 
