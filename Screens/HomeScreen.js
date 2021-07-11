@@ -19,10 +19,9 @@ const Home = () => {
   const [isLoading, setLoading] = useState(false);
 
   const getReps = () => {
-    const api = 'https://api.github.com/search/repositories?q={';
     if (query != null) {
       Keyboard.dismiss();
-      fetch(api + query + '}')
+      fetch(`https://api.github.com/search/repositories?q={${query}}`)
         .then(response => response.json())
         .then(json => {
           if (json && json.items) {
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
   },
   header: {
     color: '#fff',
+    fontFamily: 'serif',
     fontWeight: '800',
     paddingLeft: 18,
     marginTop: 62,
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     color: '#C9C9C9',
   },
   searchButton: {
-    fontWeight: '300',
     padding: 15,
     backgroundColor: '#000000',
     borderRadius: 15,

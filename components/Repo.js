@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Linking} from 'react-native';
+import {View, Text, StyleSheet, Linking, TouchableOpacity} from 'react-native';
 
 const Repo = props => {
   return (
@@ -24,6 +24,9 @@ const Repo = props => {
           description: <Text style={styles.value}>{props.description}</Text>
         </Text>
       </View>
+      <TouchableOpacity style={styles.searchButton}>
+        <Text style={styles.importText}>Import</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -39,6 +42,7 @@ const styles = StyleSheet.create({
     borderColor: '#505050',
   },
   title: {
+    fontFamily: 'serif',
     color: '#549fed',
     fontSize: 24,
     textDecorationLine: 'underline',
@@ -46,18 +50,34 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   detail: {
+    fontFamily: 'serif',
     marginTop: 2,
     color: '#ffff00',
-    fontSize: 15,
+    fontSize: 14,
     fontStyle: 'italic',
     fontWeight: '200',
   },
   value: {
+    fontFamily: 'san-serif',
     color: '#fff',
     flexWrap: 'wrap',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '400',
     fontStyle: 'normal',
+  },
+  searchButton: {
+    width: '20%',
+    height: 24,
+    alignItems: 'center',
+    marginTop: 8,
+    backgroundColor: '#000000',
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#505050',
+  },
+  importText: {
+    fontFamily: 'serif',
+    color: '#549fed',
   },
 });
 
