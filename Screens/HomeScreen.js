@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,10 +13,14 @@ import {
 } from 'react-native';
 import Repo from '../Components/Repo';
 
-const Home = () => {
+const Home = props => {
   const [query, setQuery] = useState('');
   const [repo, setRepo] = useState([]);
   const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log('HomeScreen.console = ' + props);
+  }, []);
 
   const getReps = () => {
     if (query != null) {
@@ -68,6 +72,9 @@ const Home = () => {
                       lang={item.language}
                       description={item.description}
                       URL={item.html_url}
+                      onImport={() => {
+                        props.onImport(item);
+                      }}
                     />
                   </View>
                 );

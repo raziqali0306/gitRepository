@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Linking, TouchableOpacity} from 'react-native';
 
 const Repo = props => {
+  const [repoImport, setRepoImport] = useState(false);
   return (
     <View style={styles.item}>
       <Text
@@ -24,7 +25,7 @@ const Repo = props => {
           description: <Text style={styles.value}>{props.description}</Text>
         </Text>
       </View>
-      <TouchableOpacity style={styles.searchButton}>
+      <TouchableOpacity style={styles.searchButton} onPress={props.onImport}>
         <Text style={styles.importText}>Import</Text>
       </TouchableOpacity>
     </View>
