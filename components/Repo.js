@@ -1,8 +1,20 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Linking, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Linking,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 
 const Repo = props => {
-  const [repoImport, setRepoImport] = useState(false);
+  useEffect(() => {
+    console.log(
+      'repo.js : ' + props.isImported + ' == ' + props.packageJsonExists,
+    );
+  }, []);
+
   return (
     <View style={styles.item}>
       <Text
@@ -25,9 +37,19 @@ const Repo = props => {
           description: <Text style={styles.value}>{props.description}</Text>
         </Text>
       </View>
-      <TouchableOpacity style={styles.searchButton} onPress={props.onImport}>
-        <Text style={styles.importText}>Import</Text>
-      </TouchableOpacity>
+      {!props.isImported ? (
+        <TouchableOpacity style={styles.searchButton} onPress={props.onImport}>
+          <Text style={styles.importText}>Import</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={() => {
+            ToastAndroid.show('Already Imported.!', ToastAndroid.SHORT);
+          }}>
+          <Text style={styles.importText}>Imported</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -67,10 +89,11 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
   searchButton: {
-    width: '20%',
-    height: 24,
+    alignSelf: 'baseline',
     alignItems: 'center',
     marginTop: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     backgroundColor: '#000000',
     borderRadius: 30,
     borderWidth: 1,

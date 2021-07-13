@@ -17,12 +17,10 @@ const Home = props => {
   const [query, setQuery] = useState('');
   const [repo, setRepo] = useState([]);
   const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    console.log('HomeScreen.console = ' + props);
-  }, []);
+  const [itemsImported, setItemsImported] = useState(new Set());
 
   const getReps = () => {
+    setItemsImported(new Set());
     if (query != null) {
       Keyboard.dismiss();
       fetch(`https://api.github.com/search/repositories?q={${query}}`)
@@ -73,8 +71,12 @@ const Home = props => {
                       description={item.description}
                       URL={item.html_url}
                       onImport={() => {
+                        let set = itemsImported;
+                        set.add(index);
+                        setItemsImported(set);
                         props.onImport(item);
                       }}
+                      isImported={itemsImported.has(index) ? true : false}
                     />
                   </View>
                 );

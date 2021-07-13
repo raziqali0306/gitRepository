@@ -10,7 +10,6 @@ const TopTabNavigator = () => {
   const [dependencies, setDependencies] = useState([]);
   const [devDependencies, setDevDependencies] = useState([]);
   const [topPacks, setTopPacks] = useState(new Map());
-  const [packageJsonExist, setPackageJsonExist] = useState(false);
 
   const Tab = createMaterialTopTabNavigator();
 
@@ -19,7 +18,6 @@ const TopTabNavigator = () => {
   }, [importData]);
 
   useEffect(() => {
-    setPackageJsonExist(false);
     getDevDependencies();
   }, [dependencies]);
 
@@ -50,11 +48,9 @@ const TopTabNavigator = () => {
     console.log('=================  getDevDependencies');
     let downloadURL;
     if (dependencies && dependencies.message) {
-      setPackageJsonExist(false);
       console.log('no package.json found');
       return;
     } else {
-      setPackageJsonExist(true);
       dependencies.map(item => {
         if (item.name === 'package.json') {
           downloadURL = item.download_url;
